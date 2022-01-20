@@ -9,6 +9,8 @@ from pygame import key
 from pygame.display import update
 from pygame.time import Clock
 
+from car import Car
+
 pygame.init()
 pygame.font.init()
 pygame.mixer.init()
@@ -17,6 +19,8 @@ FPS = 60
 fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode((1280,720))
 gameOver = False
+
+p1 = Car(200,200,30,70)
 
 def clear_screen(): #clears screen by covering the screen with a large black rectangle
     global screen
@@ -27,7 +31,8 @@ while gameOver == False: #main while loops, runs 60 times a second (60fps)
         if event.type == pygame.QUIT: 
             quit()
 
-    clear_screen()
+    clear_screen();
+    p1.draw(screen)
     
     pygame.display.flip()
     fpsClock.tick(FPS)
