@@ -20,7 +20,18 @@ fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode((1280,720))
 gameOver = False
 
-p1 = Car(200,200,30,70)
+p1 = Car(500,500,250,125)
+
+def getPlayerInput(): #Takes in user keyboard input (A/D - Left/Right), (SPACE - Double Jump), (LMB - Shoot)
+    global p1 
+    keyPressed = pygame.key.get_pressed()
+
+    if keyPressed[pygame.K_a]:
+        p1.rotateLeft()
+    if keyPressed[pygame.K_d]:
+        p1.rotateRight()
+    if keyPressed[pygame.K_w]:
+        p1.accel()
 
 def clear_screen(): #clears screen by covering the screen with a large black rectangle
     global screen
@@ -31,8 +42,11 @@ while gameOver == False: #main while loops, runs 60 times a second (60fps)
         if event.type == pygame.QUIT: 
             quit()
 
-    clear_screen();
+    clear_screen()
     p1.draw(screen)
+    p1.decel()
+    p1.move()
+    getPlayerInput()
     
     pygame.display.flip()
     fpsClock.tick(FPS)
