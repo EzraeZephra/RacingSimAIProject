@@ -26,6 +26,8 @@ while gameOver == False: #main while loops, runs 60 times a second (60fps)
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
             quit()
+
+    clear_screen()
     
     pygame.display.flip()
     fpsClock.tick(FPS)
