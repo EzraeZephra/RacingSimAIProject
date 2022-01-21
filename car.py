@@ -15,28 +15,43 @@ class Car:
         self.myRect = pygame.Rect(self.x, self.y, self.width, self.length)
     
     def rotateLeft(self):
-        self.angle += 15
+        self.angle += 7.5
     
     def rotateRight(self):
-        self.angle -= 15
+        self.angle -= 7.5
     
     def decel(self):
-        if (self.speed > 0):
-            self.speed -= 0.1
+        self.speed -= 0.2
     
     def accel(self):
         self.speed += 0.2
 
+    def friction(self):
+        if (self.speed >= 0.1):
+            self.speed -= 0.1
+        elif (self.speed < 0):
+            self.speed += 0.1
+
     def move(self):
         self.x += self.speed * math.sin((self.angle+270)/180*math.pi)
         self.y += self.speed * math.cos((self.angle+270)/180*math.pi)
+    
+    def boundaries(self):
+        if (self.x <= 0):
+            self.x = 1280
+        elif (self.x >= 1280):
+            self.x = 0
+        
+        if (self.y <= 0):
+            self.y = 720
+        elif (self.y >= 720):
+            self.y = 0
     
     def calculate_new_xy(self):
         move_vec = pygame.math.Vector2()
         move_vec.from_polar((self.speed, self.angle))
         self.x += move_vec
         self.y += move_vec
-    
 
     def draw(self, screen):
         rotatedImage = pygame.transform.rotate(self.image, self.angle)
