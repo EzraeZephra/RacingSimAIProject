@@ -20,7 +20,7 @@ fpsClock = pygame.time.Clock()
 screen = pygame.display.set_mode((1280,720))
 gameOver = False
 
-p1 = Car(500,500,50,25)
+p1 = Car(500,500,100,50)
 
 def getPlayerInput(): #Takes in user keyboard input (A/D - Left/Right), (SPACE - Double Jump), (LMB - Shoot)
     global p1 
