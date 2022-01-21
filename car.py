@@ -38,14 +38,14 @@ class Car:
     
     def boundaries(self):
         if (self.x <= 0):
-            self.x = 1280
+            self.speed *= -0.8
         elif (self.x >= 1280):
-            self.x = 0
+            self.speed *= -0.8
         
         if (self.y <= 0):
-            self.y = 720
+            self.speed *= -0.8
         elif (self.y >= 720):
-            self.y = 0
+            self.speed *= -0.8 
     
     def calculate_new_xy(self):
         move_vec = pygame.math.Vector2()
