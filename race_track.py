@@ -1,3 +1,5 @@
+from cmath import rect
+from numpy import rec
 import pygame
 
 class RaceTrack:
@@ -7,10 +9,15 @@ class RaceTrack:
     def __init__(self, name):
         self.name = name
     
-    def addWall(self, points):
-        self.walls.append(points)
+    def addRect(self, rectangle):
+        self.walls.append(rectangle)
+
+    def getWalls(self):
+        return self.walls
 
     def drawRaceTrack(self, screen):
-        for point in self.walls:
-            pygame.draw.line(screen, (255,0,0), (point[0],point[1]), (point[2],point[3]))
+        for rectangle in self.walls:
+            pygame.draw.rect(screen,(255,0,0),rectangle)
+
+       
     

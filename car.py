@@ -46,6 +46,12 @@ class Car:
             self.speed *= -0.8
         elif (self.y > 720):
             self.speed *= -0.8 
+
+    def setSpeed(self, speed):
+        self.speed = speed
+
+    def getSpeed(self):
+        return self.speed
     
     def calculate_new_xy(self):
         move_vec = pygame.math.Vector2()
@@ -57,3 +63,6 @@ class Car:
         rotatedImage = pygame.transform.rotate(self.image, self.angle)
         new_rect = rotatedImage.get_rect(center = self.image.get_rect(center = (self.x, self.y)).center)
         screen.blit(rotatedImage, new_rect)
+
+    def getCollisionRectangle(self):
+        return pygame.Rect(self.x, self.y, self.width, self.length)
