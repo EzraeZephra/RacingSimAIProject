@@ -220,7 +220,7 @@ class AICar(Car):
     
     def mutate(self):
         for i in range(len(self.dna)):
-            if (random.randint(1,100) <= 10):
+            if (random.randint(1,100) <= 50):
                 self.dna[i] = random.randint(0,4)
 
     def createDNA(self):
