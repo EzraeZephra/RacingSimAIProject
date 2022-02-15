@@ -16,9 +16,9 @@ class RaceTrack:
 
     def drawRaceTrack(self, screen):
         for rectangle in self.walls:
-            pygame.draw.rect(screen, (255, 0, 0), rectangle)
+            pygame.draw.rect(screen, (128, 128, 128), rectangle)
         for rectangle in self.check_points:
-            pygame.draw.rect(screen, (255, 255, 0), rectangle)
+            pygame.draw.rect(screen, (0, 155, 30), rectangle)
 
     def getWalls(self):
         return self.walls

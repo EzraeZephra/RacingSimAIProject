@@ -19,6 +19,10 @@ player1 = Car(100,100)
 AICars = []
 track1 = RaceTrack("track 1")
 
+numCars = 1000
+max = 0
+bestCar = 0
+
 def getUserInput():
     pressed = pygame.key.get_pressed()
 
@@ -32,7 +36,17 @@ def getUserInput():
         player1.reverse(track1.getWalls())
 
 def drawHUD():
-    textsurface = myfont.render("check point 0: " + str(player1.getCheckPoint(0)), False, (0, 0, 0))
+    textsurface = myfont.render("check point 0: " + str(AICars[0].getCheckPoint(0)), False, (0, 0, 0))
+    screen.blit(textsurface,(900,0))
+    textsurface = myfont.render("check point 1: " + str(AICars[0].getCheckPoint(1)), False, (0, 0, 0))
+    screen.blit(textsurface,(900,30))
+    textsurface = myfont.render("check point 2: " + str(AICars[0].getCheckPoint(2)), False, (0, 0, 0))
+    screen.blit(textsurface,(900,60))
+    textsurface = myfont.render("check point 3: " + str(AICars[0].getCheckPoint(3)), False, (0, 0, 0))
+    screen.blit(textsurface,(900,90))
+    textsurface = myfont.render("check point 4: " + str(AICars[0].getCheckPoint(4)), False, (0, 0, 0))
+    screen.blit(textsurface,(900,120))
+    '''textsurface = myfont.render("check point 0: " + str(player1.getCheckPoint(0)), False, (0, 0, 0))
     screen.blit(textsurface,(900,0))
     textsurface = myfont.render("check point 1: " + str(player1.getCheckPoint(1)), False, (0, 0, 0))
     screen.blit(textsurface,(900,30))
@@ -41,16 +55,20 @@ def drawHUD():
     textsurface = myfont.render("check point 3: " + str(player1.getCheckPoint(3)), False, (0, 0, 0))
     screen.blit(textsurface,(900,90))
     textsurface = myfont.render("check point 4: " + str(player1.getCheckPoint(4)), False, (0, 0, 0))
-    screen.blit(textsurface,(900,120))
-    textsurface = myfont.render("laps: " + str(AICars[0].getNumLaps()), False, (0, 0, 0))
+    screen.blit(textsurface,(900,120))'''
+    textsurface = myfont.render("laps: " + str(AICars[bestCar].getNumLaps()), False, (0, 0, 0))
     screen.blit(textsurface,(900,150))
     textsurface = myfont.render("cars: " + str(len(AICars)), False, (0, 0, 0))
     screen.blit(textsurface,(900,180))
     textsurface = myfont.render("DNA: " + str(AICars[0].getCurrentDNA()), False, (0,0,0))
     screen.blit(textsurface,(900,210))
+    textsurface = myfont.render("High Score: " + str(AICars[bestCar].getScore()), False, (0,0,0))
+    screen.blit(textsurface,(900,240))
+    textsurface = myfont.render("Last Gen Best Score: " + str(AICars[0].getScore()), False, (0,0,0))
+    screen.blit(textsurface,(900,270))
 
 def createAICars():
-    for i in range(100):
+    for i in range(numCars):
         AICars.append(AICar(100,100))
 
 def moveAIs():
@@ -62,6 +80,8 @@ def drawAIs():
         car.draw(screen)
 
 def resetAllCars():
+    global max
+    max = 0
     for car in AICars:
         car.setPosition(100,100)
         car.resetDNA()
@@ -72,7 +92,7 @@ def resetAllCars():
         car.resetLaps()
 
 def clear_screen():
-    pygame.draw.rect(screen, (255,255,255), (0, 0, 1280, 720))
+    pygame.draw.rect(screen, (230,230,230), (0, 0, 1280, 720))
 
 def createTrack1():
     track1.addRect(pygame.Rect(0,0,800,25))
@@ -88,24 +108,28 @@ def createTrack1():
     track1.addRect(pygame.Rect(750,400,25,100))
     track1.addRect(pygame.Rect(200,400,400,25))
 
-    track1.addCheckPoint(pygame.Rect(500,0,25,200))
-    track1.addCheckPoint(pygame.Rect(600,300,200,25))
-    track1.addCheckPoint(pygame.Rect(500,425,25,200))
-    track1.addCheckPoint(pygame.Rect(0,400,200,25))
-    track1.addCheckPoint(pygame.Rect(0,200,200,25))
+    track1.addCheckPoint(pygame.Rect(500,0,15,200))
+    track1.addCheckPoint(pygame.Rect(600,300,200,15))
+    track1.addCheckPoint(pygame.Rect(500,425,15,200))
+    track1.addCheckPoint(pygame.Rect(0,400,200,15))
+    track1.addCheckPoint(pygame.Rect(0,200,200,15))
+
+def spotlight(screen):
+    global max, bestCar
+    pygame.draw.circle(screen,(0,255,0),(AICars[0].getX(),AICars[0].getY()),35,2)
+    pygame.draw.circle(screen,(255,0,0),(AICars[bestCar].getX(),AICars[bestCar].getY()),40,2)
+    for i in range(len(AICars)):
+        if AICars[i].getScore() > max:
+            bestCar = i
+            max = AICars[i].getScore()
+
 
 def killBottomHalf():
     global AICars
-    '''for i in range(0, len(AICars)):
-        for j in range(0, len(AICars)-1):
-            if AICars[i].getScore() < AICars[j+1].getScore():
-                temp = AICars[j]
-                AICars[j] = AICars[j+1]
-                AICars[j+1] = temp'''
     AICars = AICars[:int(len(AICars)/2)]
 
 def makeCarBabies():
-    if (len(AICars) == 50):
+    if (len(AICars) == (int)(numCars/2)):
         Car1 = AICars[0]
     else:
         Car1 = AICars[random.randint(0,len(AICars)-1)]
@@ -139,19 +163,21 @@ while True:
 
     getUserInput()
     clear_screen()
-
-    drawAIs()
-    moveAIs()
     track1.drawRaceTrack(screen)
+    drawAIs()
+    spotlight(screen)
+    moveAIs()
+    
     player1.draw(screen)
     drawHUD()
     pygame.display.flip()
     fpsClock.tick(FPS)
 
     if (AICars[0].getCurrentDNA() >= 2500):
-        AICars.sort(key=lambda x: x.getScore(), reverse=True)
+        AICars = sorted(AICars, key=lambda AICar: AICar.getScore(), reverse=True)
+        print(AICars[0].getScore())
         killBottomHalf()
         resetAllCars()
-        for i in range(50):
+        for i in range((int)(numCars/2)):
             makeCarBabies()
         
